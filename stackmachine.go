@@ -13,7 +13,7 @@ func StackMachine(commands string)(int, error) {
 	splitCommands := strings.Fields(commands)
 
 	for _, command := range(splitCommands) {
-		if integer, err := strconv.Atoi(command); err == nil {
+		if integer, err := checkAndConvertToInteger(command); err == nil {
 			stack = append(stack, integer)
 		}
 	}
@@ -25,6 +25,15 @@ func StackMachine(commands string)(int, error) {
 	topmostValueOfStack := stack[len(stack)-1]
 
 	return topmostValueOfStack, nil
+}
+
+
+func checkAndConvertToInteger(command string) (int, error) {
+	if integer, err := strconv.Atoi(command); err == nil {
+		return integer, nil
+	} else {
+		return -1, err
+	}
 }
 
 
