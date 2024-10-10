@@ -31,12 +31,7 @@ func StackMachine(commands string)(int, error) {
 			case "CLEAR":
 				clearStack(&stack)
 			case "SUM":
-				total := 0
-				for _, integer := range(stack) {
-					total += integer
-				}
-				clearStack(&stack)
-				checkIntegerAndPushToStack(total, &stack)
+				sumAllIntegersOnStack(&stack)
 			}
 			
 		}
@@ -132,6 +127,19 @@ func duplicateTopmostValueOfStack(stack *[]int) {
 
 func clearStack(stack *[]int) {
 	*stack = (*stack)[:0]
+}
+
+func sumAllIntegersOnStack(stack *[]int) error {
+	if len(*stack) == 0 {
+		return errors.New("stack empty, cannot SUM")
+	}
+	total := 0
+	for _, integer := range(*stack) {
+		total += integer
+	}
+	clearStack(stack)
+	checkIntegerAndPushToStack(total, stack)
+	return nil
 }
 
 
