@@ -9,14 +9,7 @@ import (
 func StackMachine(commands string) (int, error) {
 	stack := []int{}
 
-	splitCommands := strings.Fields(commands)
-
-	for _, command := range splitCommands {
-		err := executeCommand(command, &stack)
-		if err != nil {
-			return 0, err
-		}
-	}
+	executeCommands(commands, &stack)
 
 	topmostIntegerOfStack, err := getTopmostIntegerOfStack(&stack)
 	if err != nil {
@@ -24,6 +17,20 @@ func StackMachine(commands string) (int, error) {
 	}
 
 	return topmostIntegerOfStack, nil
+}
+
+
+func executeCommands(commands string, stack *[]int) error {
+	splitCommands := strings.Fields(commands)
+
+	for _, command := range splitCommands {
+		err := executeCommand(command, stack)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 
