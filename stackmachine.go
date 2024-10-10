@@ -46,9 +46,9 @@ func checkCommandAndConverterToInteger(command string) (int, error) {
 	integer, err := strconv.Atoi(command)
 	if err == nil {
 		return integer, nil
-	} else {
-		return 0, err
 	}
+	
+	return 0, err
 }
 
 func integerInBounds(integer int) bool {
@@ -61,9 +61,9 @@ func checkIntegerAndPushToStack(integer int, stack *[]int) error {
 	if integerInBounds(integer) {
 		*stack = append(*stack, integer)
 		return nil
-	} else {
-		return errors.New("integer out of bounds error")
 	}
+	
+	return errors.New("integer out of bounds error")
 }
 
 func popIntegerFromStack(stack *[]int) (int, error) {
@@ -88,10 +88,10 @@ func sumTopTwoIntegersOfStack(stack *[]int) {
 func getTopmostValueOfStack(stack *[]int) (int, error){
 	if len(*stack) == 0 {
 		return -1, errors.New("")
-	} else {
-		topmostValueOfStack := (*stack)[len(*stack)-1]
-		return topmostValueOfStack, nil
 	}
+
+	topmostValueOfStack := (*stack)[len(*stack)-1]
+	return topmostValueOfStack, nil
 }
 
 
