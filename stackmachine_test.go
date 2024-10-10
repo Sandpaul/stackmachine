@@ -14,9 +14,8 @@ func TestStartsWithEmptyStack(t *testing.T) {
 	}
 }
 
-
 func TestReturnsTopValueFromStack(t *testing.T) {
-	actual, err := StackMachine("1")
+	actual, err := StackMachine("3 2 1")
 	if err != nil {
 		t.Errorf("expected no error but got: %v", err)
 	}
@@ -28,7 +27,6 @@ func TestReturnsTopValueFromStack(t *testing.T) {
 	}
 }
 
-
 func TestNegativeNumbersNotAddedToStack(t *testing.T) {
 	_, err := StackMachine("-1")
 	if err == nil {
@@ -36,11 +34,23 @@ func TestNegativeNumbersNotAddedToStack(t *testing.T) {
 	}
 }
 
-
 func TestNumbersOverFiftyThousandNotAddedToStack(t *testing.T) {
 	_, err := StackMachine("50001")
 	if err == nil {
 		t.Error("expected number out of bounds error")
+	}
+}
+
+func TestPopRemovesMostRecentIntegerFromStack(t *testing.T) {
+	actual, err := StackMachine("1 2 3 POP")
+	if err != nil {
+		t.Errorf("expected no error but got: %v", err)
+	}
+
+	expected := 2
+
+	if actual != expected {
+		t.Errorf("expected: %v but got: %v", expected, actual)
 	}
 }
 

@@ -16,11 +16,17 @@ func StackMachine(commands string)(int, error) {
 		integer, err := checkCommandAndConverterToInteger(command)
 		if err == nil {
 			checkIntegerAndPushToStack(integer, &stack)
+		} else {
+			switch command {
+			case "POP":
+				stack = stack[:len(stack)-1]
+			}
+			
 		}
 	}
 
 	if len(stack) == 0 {
-		return 0, errors.New("stack empty")
+		return 0, errors.New("")
 	}
 
 	topmostValueOfStack := stack[len(stack)-1]
@@ -55,7 +61,6 @@ func checkIntegerAndPushToStack(integer int, stack *[]int) error {
 
 
 // Commands:
-// - an integer (0 to 50000) - the machine pushes this integer onto the stack
 // - POP - removes most recently pushed integer from the stack
 // - DUP - duplicate the last number pushed onto the stack (or keep the stack empty)
 // - `+` - pop the the most recent two numbers, add them together and push the result. If an overflow occurs return an error
