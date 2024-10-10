@@ -22,7 +22,7 @@ func StackMachine(commands string) (int, error) {
 		case "+":
 			err = sumTopTwoIntegersOfStack(&stack)
 		case "*":
-			err = multiplyTopTwoIntegesOfStack(&stack)
+			err = multiplyTopTwoIntegersOfStack(&stack)
 		case "-":
 			err = minusPenultimateIntegerFromTopIntegerOfStack(&stack)
 		case "CLEAR":
@@ -45,6 +45,7 @@ func StackMachine(commands string) (int, error) {
 
 	return topmostIntegerOfStack, nil
 }
+
 
 func checkCommandAndConverterToInteger(command string) (int, error) {
 	integer, err := strconv.Atoi(command)
@@ -104,7 +105,7 @@ func sumTopTwoIntegersOfStack(stack *[]int) error {
 	return errors.New("")
 }
 
-func multiplyTopTwoIntegesOfStack(stack *[]int) error {
+func multiplyTopTwoIntegersOfStack(stack *[]int) error {
 	integer1, err := popIntegerFromStack(stack)
 	integer2, err2 := popIntegerFromStack(stack)
 	if err == nil && err2 == nil {
