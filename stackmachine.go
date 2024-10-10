@@ -20,6 +20,12 @@ func StackMachine(commands string)(int, error) {
 			switch command {
 			case "POP":
 				popIntegerFromStack(&stack)
+			case "DUP":
+				integer, err := popIntegerFromStack(&stack)
+				if err == nil {
+					checkIntegerAndPushToStack(integer, &stack)
+					checkIntegerAndPushToStack(integer, &stack)
+				}
 			case "+":
 				sumTopTwoIntegersOfStack(&stack)
 			}
