@@ -21,11 +21,7 @@ func StackMachine(commands string)(int, error) {
 			case "POP":
 				popIntegerFromStack(&stack)
 			case "DUP":
-				integer, err := popIntegerFromStack(&stack)
-				if err == nil {
-					checkIntegerAndPushToStack(integer, &stack)
-					checkIntegerAndPushToStack(integer, &stack)
-				}
+				duplicateTopmostValueOfStack(&stack)
 			case "+":
 				sumTopTwoIntegersOfStack(&stack)
 			}
@@ -47,7 +43,7 @@ func checkCommandAndConverterToInteger(command string) (int, error) {
 	if err == nil {
 		return integer, nil
 	}
-	
+
 	return 0, err
 }
 
@@ -92,6 +88,15 @@ func getTopmostValueOfStack(stack *[]int) (int, error){
 
 	topmostValueOfStack := (*stack)[len(*stack)-1]
 	return topmostValueOfStack, nil
+}
+
+func duplicateTopmostValueOfStack(stack *[]int) {
+	topmostValueOfStack, err := getTopmostValueOfStack(stack)
+	if err != nil {
+		return
+	}
+	
+	checkIntegerAndPushToStack(topmostValueOfStack, stack)
 }
 
 
