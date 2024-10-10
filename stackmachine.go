@@ -30,6 +30,13 @@ func StackMachine(commands string)(int, error) {
 				minusPenultimateIntegerFromTopIntegerOfStack(&stack)
 			case "CLEAR":
 				clearStack(&stack)
+			case "SUM":
+				total := 0
+				for _, integer := range(stack) {
+					total += integer
+				}
+				clearStack(&stack)
+				checkIntegerAndPushToStack(total, &stack)
 			}
 			
 		}
