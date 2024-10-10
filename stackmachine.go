@@ -1,15 +1,30 @@
 package main
 
-import "errors"
+import (
+	"errors"
+	"strconv"
+	"strings"
+)
 
 
 func StackMachine(commands string)(int, error) {
 	stack := []int{}
 
-	if len(stack) == 0 {
-		return 0, errors.New("")
+	splitCommands := strings.Fields(commands)
+
+	for _, command := range(splitCommands) {
+		if integer, err := strconv.Atoi(command); err == nil {
+			stack = append(stack, integer)
+		}
 	}
-	return 1, nil
+
+	if len(stack) == 0 {
+		return 0, errors.New("stack empty")
+	}
+
+	topmostValueOfStack := stack[len(stack)-1]
+
+	return topmostValueOfStack, nil
 }
 
 

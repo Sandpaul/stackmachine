@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"testing"
+
 )
 
 func TestStartsWithEmptyStack(t *testing.T) {
@@ -13,7 +14,20 @@ func TestStartsWithEmptyStack(t *testing.T) {
 	}
 }
 
-// Write your own TDD tests here as you develop
+
+func TestReturnsTopValueFromStack(t *testing.T) {
+	actual, err := StackMachine("1")
+	if err != nil {
+		t.Errorf("expected no error but got: %v", err)
+	}
+
+	expected := 1
+
+	if actual != expected {
+		t.Errorf("expected: %v but got: %v", expected, actual)
+	}
+}
+
 
 
 /*
