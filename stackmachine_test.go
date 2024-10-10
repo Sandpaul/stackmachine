@@ -120,6 +120,26 @@ func TestMinusCommandDeductsPenultimateNumberOnStackFromTopNumber(t *testing.T) 
 	}
 }
 
+func TestClearCommandEmptiesStack(t *testing.T) {
+	_, err := StackMachine("1 2 3 4 CLEAR")
+	if err == nil {
+		t.Error("expected error due to no results")
+	}
+}
+
+// func TestSumCommandSumsAllIntegersOnStack(t *testing.T) {
+// 	actual, err := StackMachine("1 2 3 4 5 SUM")
+// 	if err != nil {
+// 		t.Errorf("expected no error but got: %v", err)
+// 	}
+
+// 	expected := 15
+
+// 	if actual != expected {
+// 		t.Errorf("expected: %v but got: %v", expected, actual)
+// 	}
+// }
+
 /*
   All these tests must pass for completion
 */
