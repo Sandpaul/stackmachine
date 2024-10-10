@@ -19,7 +19,11 @@ func StackMachine(commands string)(int, error) {
 		} else {
 			switch command {
 			case "POP":
-				popItemFromStack(&stack)
+				popIntegerFromStack(&stack)
+			case "+":
+				item1, _ := popIntegerFromStack(&stack)
+				item2, _ := popIntegerFromStack(&stack)
+				stack = append(stack, item1 + item2)
 			}
 			
 		}
@@ -59,16 +63,16 @@ func checkIntegerAndPushToStack(integer int, stack *[]int) error {
 	}
 }
 
-func popItemFromStack(stack *[]int) (int, error) {
+func popIntegerFromStack(stack *[]int) (int, error) {
 	if len(*stack) == 0 {
 		return 0, errors.New("stack empty, noting to pop")
 	}
 	
-	poppedItem := (*stack)[len(*stack)-1]
+	poppedInteger := (*stack)[len(*stack)-1]
 	
 	*stack = (*stack)[:len(*stack)-1]
 	
-	return poppedItem, nil
+	return poppedInteger, nil
 }
 
 
