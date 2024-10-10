@@ -26,6 +26,13 @@ func StackMachine(commands string)(int, error) {
 				sumTopTwoIntegersOfStack(&stack)
 			case "*":
 				multiplyTopTwoIntegesOfStack(&stack)
+			case "-":
+				integer1, err := popIntegerFromStack(&stack)
+				integer2, err2 := popIntegerFromStack(&stack)
+				if err == nil && err2 == nil {
+					difference := integer1 - integer2
+					checkIntegerAndPushToStack(difference, &stack)
+				}
 			}
 			
 		}
@@ -112,16 +119,10 @@ func duplicateTopmostValueOfStack(stack *[]int) {
 
 
 // Commands:
-// - POP - removes most recently pushed integer from the stack
-// - DUP - duplicate the last number pushed onto the stack (or keep the stack empty)
-// - `+` - pop the the most recent two numbers, add them together and push the result. If an overflow occurs return an error
 // - `-` - pop the most recent two numbers, subtract the second from the most recent, push the result. Return error if result is below 0
-// - `*` - pop the top two elements from the stack, multiply them together, push the result onto the stack
 // - CLEAR - empties the stack
 // - SUM - pops all elements off the stack, adds them together, pushes result onto the stack. SUM on an empty stack returns an error.
 // - Any other input is invalid - machine must stop and return an error
-
-// After processing all the operators without errors, the machine returns the topmost value from the stack. 
 
 
 func main() {

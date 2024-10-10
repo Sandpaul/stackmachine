@@ -107,6 +107,19 @@ func TestMultiplyCommandMultipliesTopTwoNumbersOnStack(t *testing.T) {
 	}
 }
 
+func TestMinusCommandDeductsPenultimateNumberOnStackFromTopNumber(t *testing.T) {
+	actual, err := StackMachine("2 5 -")
+	if err != nil {
+		t.Errorf("expected no error but got: %v", err)
+	}
+
+	expected := 3
+
+	if actual != expected {
+		t.Errorf("expected: %v but got: %v", expected, actual)
+	}
+}
+
 /*
   All these tests must pass for completion
 */
