@@ -6,37 +6,39 @@ import (
 	"strings"
 )
 
-
-func StackMachine(commands string)(int, error) {
+func StackMachine(commands string) (int, error) {
 	stack := []int{}
 
 	splitCommands := strings.Fields(commands)
 
-	for _, command := range(splitCommands) {
-		integer, err := checkCommandAndConverterToInteger(command)
-		if err == nil {
-			checkIntegerAndPushToStack(integer, &stack)
-		} else {
-			var err error
-			switch command {
-			case "POP":
-				_, err = popIntegerFromStack(&stack)
-			case "DUP":
-				duplicateTopmostValueOfStack(&stack)
-			case "+":
-				err = sumTopTwoIntegersOfStack(&stack)
-			case "*":
-				err = multiplyTopTwoIntegesOfStack(&stack)
-			case "-":
-				err = minusPenultimateIntegerFromTopIntegerOfStack(&stack)
-			case "CLEAR":
-				clearStack(&stack)
-			case "SUM":
-				err = sumAllIntegersOnStack(&stack)
+	for _, command := range splitCommands {
+		var err error
+
+		switch command {
+		case "POP":
+			_, err = popIntegerFromStack(&stack)
+		case "DUP":
+			duplicateTopmostValueOfStack(&stack)
+		case "+":
+			err = sumTopTwoIntegersOfStack(&stack)
+		case "*":
+			err = multiplyTopTwoIntegesOfStack(&stack)
+		case "-":
+			err = minusPenultimateIntegerFromTopIntegerOfStack(&stack)
+		case "CLEAR":
+			clearStack(&stack)
+		case "SUM":
+			err = sumAllIntegersOnStack(&stack)
+		default:
+			integer, conversionErr := checkCommandAndConverterToInteger(command)
+			if conversionErr != nil {
+				return 0, errors.New("")
 			}
-			if err != nil {
-				return 0, err
-			}
+			err = checkIntegerAndPushToStack(integer, &stack)
+		}
+
+		if err != nil {
+			return 0, err
 		}
 	}
 
@@ -44,10 +46,9 @@ func StackMachine(commands string)(int, error) {
 	if err != nil {
 		return 0, err
 	}
-	
+
 	return topmostValueOfStack, nil
 }
-
 
 func checkCommandAndConverterToInteger(command string) (int, error) {
 	integer, err := strconv.Atoi(command)
@@ -69,15 +70,15 @@ func checkIntegerAndPushToStack(integer int, stack *[]int) error {
 		*stack = append(*stack, integer)
 		return nil
 	}
-	
-	return errors.New("integer out of bounds error")
+
+	return errors.New("")
 }
 
 func popIntegerFromStack(stack *[]int) (int, error) {
 	if len(*stack) == 0 {
 		return 0, errors.New("")
 	}
-	
+
 	poppedInteger := (*stack)[len(*stack)-1]
 	*stack = (*stack)[:len(*stack)-1]
 	return poppedInteger, nil
@@ -116,7 +117,7 @@ func minusPenultimateIntegerFromTopIntegerOfStack(stack *[]int) error {
 	return errors.New("")
 }
 
-func getTopmostValueOfStack(stack *[]int) (int, error){
+func getTopmostValueOfStack(stack *[]int) (int, error) {
 	if len(*stack) == 0 {
 		return -1, errors.New("")
 	}
@@ -130,7 +131,7 @@ func duplicateTopmostValueOfStack(stack *[]int) {
 	if err != nil {
 		return
 	}
-	
+
 	checkIntegerAndPushToStack(topmostValueOfStack, stack)
 }
 
@@ -143,7 +144,7 @@ func sumAllIntegersOnStack(stack *[]int) error {
 		return errors.New("")
 	}
 	total := 0
-	for _, integer := range(*stack) {
+	for _, integer := range *stack {
 		total += integer
 	}
 	clearStack(stack)
@@ -151,8 +152,7 @@ func sumAllIntegersOnStack(stack *[]int) error {
 	return nil
 }
 
-
 func main() {
-	// main is unused - run using 
+	// main is unused - run using
 	// go test ./...
 }
