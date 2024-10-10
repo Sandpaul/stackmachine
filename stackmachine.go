@@ -33,12 +33,11 @@ func StackMachine(commands string)(int, error) {
 		}
 	}
 
-	if len(stack) == 0 {
-		return 0, errors.New("")
+	topmostValueOfStack, err := getTopmostValueOfStack(&stack)
+	if err != nil {
+		return -1, err
 	}
-
-	topmostValueOfStack := stack[len(stack)-1]
-
+	
 	return topmostValueOfStack, nil
 }
 
@@ -83,6 +82,15 @@ func sumTopTwoIntegersOfStack(stack *[]int) {
 	if err1 == nil && err2 == nil {
 		sum := integer1 + integer2
 		checkIntegerAndPushToStack(sum, stack)
+	}
+}
+
+func getTopmostValueOfStack(stack *[]int) (int, error){
+	if len(*stack) == 0 {
+		return -1, errors.New("")
+	} else {
+		topmostValueOfStack := (*stack)[len(*stack)-1]
+		return topmostValueOfStack, nil
 	}
 }
 
