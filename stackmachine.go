@@ -9,28 +9,31 @@ import (
 func StackMachine(commands string) (int, error) {
 	stack := []int{}
 
-	executeCommands(commands, &stack)
-
-	topmostIntegerOfStack, err := getTopmostIntegerOfStack(&stack)
+	result, err := executeCommands(commands, &stack)
 	if err != nil {
 		return 0, err
 	}
 
-	return topmostIntegerOfStack, nil
+	return result, nil
 }
 
 
-func executeCommands(commands string, stack *[]int) error {
+func executeCommands(commands string, stack *[]int) (int, error) {
 	splitCommands := strings.Fields(commands)
 
 	for _, command := range splitCommands {
 		err := executeCommand(command, stack)
 		if err != nil {
-			return err
+			return 0, err
 		}
 	}
 
-	return nil
+	topmostIntegerOfStack, err := getTopmostIntegerOfStack(stack)
+	if err != nil {
+		return 0, err
+	}
+
+	return topmostIntegerOfStack, nil
 }
 
 
