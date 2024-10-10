@@ -36,6 +36,14 @@ func TestNegativeNumbersNotAddedToStack(t *testing.T) {
 	}
 }
 
+
+func TestNumbersOverFiftyThousandNotAddedToStack(t *testing.T) {
+	_, err := StackMachine("50001")
+	if err == nil {
+		t.Error("expected number out of bounds error")
+	}
+}
+
 /*
   All these tests must pass for completion
 */
