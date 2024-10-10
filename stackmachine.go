@@ -28,7 +28,7 @@ func executeCommands(commands string, stack *[]int) (int, error) {
 		}
 	}
 
-	topmostIntegerOfStack, err := getTopmostIntegerOfStack(stack)
+	topmostIntegerOfStack, err := popFromStack(stack)
 	if err != nil {
 		return 0, err
 	}
@@ -42,21 +42,21 @@ func executeCommand(command string, stack *[]int) error {
 
 	switch command {
 	case "POP":
-		_, err = popIntegerFromStack(stack)
+		_, err = popFromStack(stack)
 	case "DUP":
-		duplicateTopmostIntegerOfStack(stack)
+		duplicateTop(stack)
 	case "SUM":
-		err = sumAllIntegersOnStack(stack)
+		err = sumAll(stack)
 	case "CLEAR":
 		clearStack(stack)
 	case "+":
-		err = sumTopTwoIntegersOfStack(stack)
+		err = sumTopTwo(stack)
 	case "*":
-		err = multiplyTopTwoIntegersOfStack(stack)
+		err = multiplyTopTwo(stack)
 	case "-":
-		err = minusPenultimateIntegerFromTopIntegerOfStack(stack)
+		err = subtractSecondFromTop(stack)
 	default:
-		err = pushIntegerToStack(command, stack)
+		err = pushToStack(command, stack)
 	}
 
 	if err != nil {
@@ -66,7 +66,7 @@ func executeCommand(command string, stack *[]int) error {
 }
 
 
-func checkCommandAndConverteToInteger(command string) (int, error) {
+func parseIntegerCommand(command string) (int, error) {
 	integer, err := strconv.Atoi(command)
 	if err == nil {
 		return integer, nil
@@ -75,14 +75,14 @@ func checkCommandAndConverteToInteger(command string) (int, error) {
 	return 0, err
 }
 
-func integerInBounds(integer int) bool {
+func isIntegerInBounds(integer int) bool {
 	lowerBound := 0
 	upperBound := 50000
 	return integer >= lowerBound && integer <= upperBound
 }
 
-func checkIntegerAndPushToStack(integer int, stack *[]int) error {
-	if integerInBounds(integer) {
+func pushIfValid(integer int, stack *[]int) error {
+	if isIntegerInBounds(integer) {
 		*stack = append(*stack, integer)
 		return nil
 	}
@@ -90,12 +90,12 @@ func checkIntegerAndPushToStack(integer int, stack *[]int) error {
 	return errors.New("")
 }
 
-func pushIntegerToStack(command string, stack *[]int) error {
-	integer, err := checkCommandAndConverteToInteger(command)
+func pushToStack(command string, stack *[]int) error {
+	integer, err := parseIntegerCommand(command)
 	if err != nil {
 		return errors.New("")
 	}
-	err = checkIntegerAndPushToStack(integer, stack)
+	err = pushIfValid(integer, stack)
 	if err != nil {
 		return errors.New("")
 	}
@@ -103,7 +103,7 @@ func pushIntegerToStack(command string, stack *[]int) error {
 }
 
 
-func popIntegerFromStack(stack *[]int) (int, error) {
+func popFromStack(stack *[]int) (int, error) {
 	if len(*stack) == 0 {
 		return 0, errors.New("")
 	}
@@ -113,40 +113,40 @@ func popIntegerFromStack(stack *[]int) (int, error) {
 	return poppedInteger, nil
 }
 
-func sumTopTwoIntegersOfStack(stack *[]int) error {
-	integer1, err1 := popIntegerFromStack(stack)
-	integer2, err2 := popIntegerFromStack(stack)
+func sumTopTwo(stack *[]int) error {
+	integer1, err1 := popFromStack(stack)
+	integer2, err2 := popFromStack(stack)
 	if err1 == nil && err2 == nil {
 		sum := integer1 + integer2
-		checkIntegerAndPushToStack(sum, stack)
+		pushIfValid(sum, stack)
 		return nil
 	}
 	return errors.New("")
 }
 
-func multiplyTopTwoIntegersOfStack(stack *[]int) error {
-	integer1, err := popIntegerFromStack(stack)
-	integer2, err2 := popIntegerFromStack(stack)
+func multiplyTopTwo(stack *[]int) error {
+	integer1, err := popFromStack(stack)
+	integer2, err2 := popFromStack(stack)
 	if err == nil && err2 == nil {
 		product := integer1 * integer2
-		checkIntegerAndPushToStack(product, stack)
+		pushIfValid(product, stack)
 		return nil
 	}
 	return errors.New("")
 }
 
-func minusPenultimateIntegerFromTopIntegerOfStack(stack *[]int) error {
-	integer1, err := popIntegerFromStack(stack)
-	integer2, err2 := popIntegerFromStack(stack)
+func subtractSecondFromTop(stack *[]int) error {
+	integer1, err := popFromStack(stack)
+	integer2, err2 := popFromStack(stack)
 	if err == nil && err2 == nil {
 		difference := integer1 - integer2
-		checkIntegerAndPushToStack(difference, stack)
+		pushIfValid(difference, stack)
 		return nil
 	}
 	return errors.New("")
 }
 
-func getTopmostIntegerOfStack(stack *[]int) (int, error) {
+func getTop(stack *[]int) (int, error) {
 	if len(*stack) == 0 {
 		return -1, errors.New("")
 	}
@@ -155,20 +155,20 @@ func getTopmostIntegerOfStack(stack *[]int) (int, error) {
 	return topmostValueOfStack, nil
 }
 
-func duplicateTopmostIntegerOfStack(stack *[]int) {
-	topmostValueOfStack, err := getTopmostIntegerOfStack(stack)
+func duplicateTop(stack *[]int) {
+	topmostValueOfStack, err := getTop(stack)
 	if err != nil {
 		return
 	}
 
-	checkIntegerAndPushToStack(topmostValueOfStack, stack)
+	pushIfValid(topmostValueOfStack, stack)
 }
 
 func clearStack(stack *[]int) {
 	*stack = (*stack)[:0]
 }
 
-func sumAllIntegersOnStack(stack *[]int) error {
+func sumAll(stack *[]int) error {
 	if len(*stack) == 0 {
 		return errors.New("")
 	}
@@ -177,7 +177,7 @@ func sumAllIntegersOnStack(stack *[]int) error {
 		total += integer
 	}
 	clearStack(stack)
-	checkIntegerAndPushToStack(total, stack)
+	pushIfValid(total, stack)
 	return nil
 }
 
