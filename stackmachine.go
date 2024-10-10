@@ -15,10 +15,10 @@ func StackMachine(commands string)(int, error) {
 	for _, command := range(splitCommands) {
 		integer, err := checkAndConvertToInteger(command)
 		if err == nil {
-			if integer >= 0 {
+			if integer >= 0 && integer <= 50000 {
 				stack = append(stack, integer)
 			} else {
-				return 0, errors.New("negative integer error")
+				return 0, errors.New("integer out of bounds error")
 			}
 		}
 	}
