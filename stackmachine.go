@@ -13,8 +13,13 @@ func StackMachine(commands string)(int, error) {
 	splitCommands := strings.Fields(commands)
 
 	for _, command := range(splitCommands) {
-		if integer, err := checkAndConvertToInteger(command); err == nil {
-			stack = append(stack, integer)
+		integer, err := checkAndConvertToInteger(command)
+		if err == nil {
+			if integer >= 0 {
+				stack = append(stack, integer)
+			} else {
+				return 0, errors.New("negative integer error")
+			}
 		}
 	}
 

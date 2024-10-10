@@ -29,6 +29,12 @@ func TestReturnsTopValueFromStack(t *testing.T) {
 }
 
 
+func TestNegativeNumbersNotAddedToStack(t *testing.T) {
+	_, err := StackMachine("-1")
+	if err == nil {
+		t.Error("expected error due to negative number")
+	}
+}
 
 /*
   All these tests must pass for completion
