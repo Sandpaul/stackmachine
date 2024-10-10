@@ -17,24 +17,25 @@ func StackMachine(commands string)(int, error) {
 		if err == nil {
 			checkIntegerAndPushToStack(integer, &stack)
 		} else {
+			var err error
 			switch command {
 			case "POP":
-				popIntegerFromStack(&stack)
+				_, err = popIntegerFromStack(&stack)
 			case "DUP":
 				duplicateTopmostValueOfStack(&stack)
 			case "+":
-				sumTopTwoIntegersOfStack(&stack)
+				err = sumTopTwoIntegersOfStack(&stack)
 			case "*":
 				err = multiplyTopTwoIntegesOfStack(&stack)
-				if err != nil {
-				return 0, errors.New("")
-			}
 			case "-":
-				minusPenultimateIntegerFromTopIntegerOfStack(&stack)
+				err = minusPenultimateIntegerFromTopIntegerOfStack(&stack)
 			case "CLEAR":
 				clearStack(&stack)
 			case "SUM":
-				sumAllIntegersOnStack(&stack)
+				err = sumAllIntegersOnStack(&stack)
+			}
+			if err != nil {
+				return 0, err
 			}
 		}
 	}
@@ -74,7 +75,7 @@ func checkIntegerAndPushToStack(integer int, stack *[]int) error {
 
 func popIntegerFromStack(stack *[]int) (int, error) {
 	if len(*stack) == 0 {
-		return 0, errors.New("stack empty, noting to pop")
+		return 0, errors.New("")
 	}
 	
 	poppedInteger := (*stack)[len(*stack)-1]
@@ -82,13 +83,15 @@ func popIntegerFromStack(stack *[]int) (int, error) {
 	return poppedInteger, nil
 }
 
-func sumTopTwoIntegersOfStack(stack *[]int) {
+func sumTopTwoIntegersOfStack(stack *[]int) error {
 	integer1, err1 := popIntegerFromStack(stack)
 	integer2, err2 := popIntegerFromStack(stack)
 	if err1 == nil && err2 == nil {
 		sum := integer1 + integer2
 		checkIntegerAndPushToStack(sum, stack)
+		return nil
 	}
+	return errors.New("")
 }
 
 func multiplyTopTwoIntegesOfStack(stack *[]int) error {
@@ -102,13 +105,15 @@ func multiplyTopTwoIntegesOfStack(stack *[]int) error {
 	return errors.New("")
 }
 
-func minusPenultimateIntegerFromTopIntegerOfStack(stack *[]int) {
+func minusPenultimateIntegerFromTopIntegerOfStack(stack *[]int) error {
 	integer1, err := popIntegerFromStack(stack)
 	integer2, err2 := popIntegerFromStack(stack)
 	if err == nil && err2 == nil {
 		difference := integer1 - integer2
 		checkIntegerAndPushToStack(difference, stack)
+		return nil
 	}
+	return errors.New("")
 }
 
 func getTopmostValueOfStack(stack *[]int) (int, error){
@@ -135,7 +140,7 @@ func clearStack(stack *[]int) {
 
 func sumAllIntegersOnStack(stack *[]int) error {
 	if len(*stack) == 0 {
-		return errors.New("stack empty, cannot SUM")
+		return errors.New("")
 	}
 	total := 0
 	for _, integer := range(*stack) {
@@ -145,11 +150,6 @@ func sumAllIntegersOnStack(stack *[]int) error {
 	checkIntegerAndPushToStack(total, stack)
 	return nil
 }
-
-
-// Commands:
-// - SUM - pops all elements off the stack, adds them together, pushes result onto the stack. SUM on an empty stack returns an error.
-// - Any other input is invalid - machine must stop and return an error
 
 
 func main() {
