@@ -18,7 +18,7 @@ func StackMachine(commands string) (int, error) {
 		case "POP":
 			_, err = popIntegerFromStack(&stack)
 		case "DUP":
-			duplicateTopmostValueOfStack(&stack)
+			duplicateTopmostIntegerOfStack(&stack)
 		case "+":
 			err = sumTopTwoIntegersOfStack(&stack)
 		case "*":
@@ -38,12 +38,12 @@ func StackMachine(commands string) (int, error) {
 		}
 	}
 
-	topmostValueOfStack, err := getTopmostValueOfStack(&stack)
+	topmostIntegerOfStack, err := getTopmostIntegerOfStack(&stack)
 	if err != nil {
 		return 0, err
 	}
 
-	return topmostValueOfStack, nil
+	return topmostIntegerOfStack, nil
 }
 
 func checkCommandAndConverterToInteger(command string) (int, error) {
@@ -126,7 +126,7 @@ func minusPenultimateIntegerFromTopIntegerOfStack(stack *[]int) error {
 	return errors.New("")
 }
 
-func getTopmostValueOfStack(stack *[]int) (int, error) {
+func getTopmostIntegerOfStack(stack *[]int) (int, error) {
 	if len(*stack) == 0 {
 		return -1, errors.New("")
 	}
@@ -135,8 +135,8 @@ func getTopmostValueOfStack(stack *[]int) (int, error) {
 	return topmostValueOfStack, nil
 }
 
-func duplicateTopmostValueOfStack(stack *[]int) {
-	topmostValueOfStack, err := getTopmostValueOfStack(stack)
+func duplicateTopmostIntegerOfStack(stack *[]int) {
+	topmostValueOfStack, err := getTopmostIntegerOfStack(stack)
 	if err != nil {
 		return
 	}
