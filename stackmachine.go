@@ -24,6 +24,13 @@ func StackMachine(commands string)(int, error) {
 				duplicateTopmostValueOfStack(&stack)
 			case "+":
 				sumTopTwoIntegersOfStack(&stack)
+			case "*":
+				integer1, err := popIntegerFromStack(&stack)
+				integer2, err2 := popIntegerFromStack(&stack)
+				if err == nil && err2 == nil {
+					product := integer1 * integer2
+					checkIntegerAndPushToStack(product, &stack)
+				}
 			}
 			
 		}
