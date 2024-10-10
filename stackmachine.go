@@ -15,7 +15,7 @@ func StackMachine(commands string)(int, error) {
 	for _, command := range(splitCommands) {
 		integer, err := checkAndConvertToInteger(command)
 		if err == nil {
-			if integer >= 0 && integer <= 50000 {
+			if integerInBounds(integer) {
 				stack = append(stack, integer)
 			} else {
 				return 0, errors.New("integer out of bounds error")
@@ -39,6 +39,13 @@ func checkAndConvertToInteger(command string) (int, error) {
 	} else {
 		return -1, err
 	}
+}
+
+
+func integerInBounds(integer int) bool {
+	lowerBound := 0
+	upperBound := 50000
+	return integer >= lowerBound && integer <= upperBound
 }
 
 
