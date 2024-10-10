@@ -67,6 +67,14 @@ func TestPlusCommandAddsTwoNumbers(t *testing.T) {
 	}
 }
 
+func TestPlusErrorsIfNotEnoughIntegersOnStack(t *testing.T) {
+	_, err := StackMachine("1 +")
+
+	if err == nil {
+		t.Error("expected error due not enough numbers")
+	}
+}
+
 func TestDupCommandDuplicatesTopNumberOfStack(t *testing.T) {
 	actual, err := StackMachine("3 DUP +")
 	if err != nil {
@@ -107,6 +115,14 @@ func TestMultiplyCommandMultipliesTopTwoNumbersOnStack(t *testing.T) {
 	}
 }
 
+func TestMultiplyErrorsIfNotEnoughIntegersOnStack(t *testing.T) {
+	_, err := StackMachine("1 *")
+
+	if err == nil {
+		t.Error("expected error due not enough numbers")
+	}
+}
+
 func TestMinusCommandDeductsPenultimateNumberOnStackFromTopNumber(t *testing.T) {
 	actual, err := StackMachine("2 5 -")
 	if err != nil {
@@ -137,6 +153,13 @@ func TestSumCommandSumsAllIntegersOnStack(t *testing.T) {
 
 	if actual != expected {
 		t.Errorf("expected: %v but got: %v", expected, actual)
+	}
+}
+
+func TestError(t *testing.T) {
+	actual, err := StackMachine("1 2 3 4 5 + + + + * 999")
+	if err == nil {
+		t.Errorf("expected error but got: %v", actual)
 	}
 }
 
