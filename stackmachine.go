@@ -13,13 +13,9 @@ func StackMachine(commands string)(int, error) {
 	splitCommands := strings.Fields(commands)
 
 	for _, command := range(splitCommands) {
-		integer, err := checkAndConvertToInteger(command)
+		integer, err := checkCommandAndConverterToInteger(command)
 		if err == nil {
-			if integerInBounds(integer) {
-				stack = append(stack, integer)
-			} else {
-				return 0, errors.New("integer out of bounds error")
-			}
+			checkIntegerAndPushToStack(integer, &stack)
 		}
 	}
 
@@ -33,19 +29,28 @@ func StackMachine(commands string)(int, error) {
 }
 
 
-func checkAndConvertToInteger(command string) (int, error) {
-	if integer, err := strconv.Atoi(command); err == nil {
+func checkCommandAndConverterToInteger(command string) (int, error) {
+	integer, err := strconv.Atoi(command)
+	if err == nil {
 		return integer, nil
 	} else {
-		return -1, err
+		return 0, err
 	}
 }
-
 
 func integerInBounds(integer int) bool {
 	lowerBound := 0
 	upperBound := 50000
 	return integer >= lowerBound && integer <= upperBound
+}
+
+func checkIntegerAndPushToStack(integer int, stack *[]int) error {
+	if integerInBounds(integer) {
+		*stack = append(*stack, integer)
+		return nil
+	} else {
+		return errors.New("integer out of bounds error")
+	}
 }
 
 
