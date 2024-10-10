@@ -13,7 +13,7 @@ func TestStartsWithEmptyStack(t *testing.T) {
 	}
 }
 
-func TestReturnsTopValueFromStack(t *testing.T) {
+func TestReturnsTopValueAfterProcessingStack(t *testing.T) {
 	actual, err := StackMachine("3 2 1")
 	if err != nil {
 		t.Errorf("expected no error but got: %v", err)
@@ -26,21 +26,21 @@ func TestReturnsTopValueFromStack(t *testing.T) {
 	}
 }
 
-func TestNegativeNumbersNotAddedToStack(t *testing.T) {
+func TestNegativeNumbersCauseError(t *testing.T) {
 	_, err := StackMachine("-1")
 	if err == nil {
 		t.Error("expected error due to negative number")
 	}
 }
 
-func TestNumbersOverFiftyThousandNotAddedToStack(t *testing.T) {
+func TestNumbersOverFiftyThousandCauseError(t *testing.T) {
 	_, err := StackMachine("50001")
 	if err == nil {
 		t.Error("expected number out of bounds error")
 	}
 }
 
-func TestPopRemovesMostRecentIntegerFromStack(t *testing.T) {
+func TestPopRemovesTopValueFromStack(t *testing.T) {
 	actual, err := StackMachine("1 2 3 POP")
 	if err != nil {
 		t.Errorf("expected no error but got: %v", err)
@@ -53,7 +53,7 @@ func TestPopRemovesMostRecentIntegerFromStack(t *testing.T) {
 	}
 }
 
-func TestPlusCommandAddsTwoNumbers(t *testing.T) {
+func TestPlusAddsTopTwoNumbers(t *testing.T) {
 	actual, err := StackMachine("1 2 +")
 	if err != nil {
 		t.Errorf("expected no error but got: %v", err)
@@ -66,7 +66,7 @@ func TestPlusCommandAddsTwoNumbers(t *testing.T) {
 	}
 }
 
-func TestPlusErrorsIfNotEnoughIntegersOnStack(t *testing.T) {
+func TestPlusFailsWithInsufficientStackValues(t *testing.T) {
 	_, err := StackMachine("1 +")
 
 	if err == nil {
@@ -74,7 +74,7 @@ func TestPlusErrorsIfNotEnoughIntegersOnStack(t *testing.T) {
 	}
 }
 
-func TestDupCommandDuplicatesTopNumberOfStack(t *testing.T) {
+func TestDupDuplicatesTopValue(t *testing.T) {
 	actual, err := StackMachine("3 DUP +")
 	if err != nil {
 		t.Errorf("expected no error but got: %v", err)
@@ -87,7 +87,7 @@ func TestDupCommandDuplicatesTopNumberOfStack(t *testing.T) {
 	}
 }
 
-func TestDupCommandDoesNothingIfStackIsEmpty(t *testing.T) {
+func TestDupDoesNothingWithEmptyStack(t *testing.T) {
 	actual, err := StackMachine("DUP 99")
 	if err != nil {
 		t.Errorf("expected no error but got: %v", err)
@@ -100,7 +100,7 @@ func TestDupCommandDoesNothingIfStackIsEmpty(t *testing.T) {
 	}
 }
 
-func TestMultiplyCommandMultipliesTopTwoNumbersOnStack(t *testing.T) {
+func TestMultiplyMultipliesTopTwoNumbers(t *testing.T) {
 	actual, err := StackMachine("9 9 *")
 	if err != nil {
 		t.Errorf("expected no error but got: %v", err)
@@ -113,7 +113,7 @@ func TestMultiplyCommandMultipliesTopTwoNumbersOnStack(t *testing.T) {
 	}
 }
 
-func TestMultiplyErrorsIfNotEnoughIntegersOnStack(t *testing.T) {
+func TestMultiplyFailsWithInsufficientStackValues(t *testing.T) {
 	_, err := StackMachine("1 *")
 
 	if err == nil {
@@ -121,7 +121,7 @@ func TestMultiplyErrorsIfNotEnoughIntegersOnStack(t *testing.T) {
 	}
 }
 
-func TestMinusCommandDeductsPenultimateNumberOnStackFromTopNumber(t *testing.T) {
+func TestMinusSubtractsPenultimateFromTop(t *testing.T) {
 	actual, err := StackMachine("2 5 -")
 	if err != nil {
 		t.Errorf("expected no error but got: %v", err)
@@ -134,14 +134,14 @@ func TestMinusCommandDeductsPenultimateNumberOnStackFromTopNumber(t *testing.T) 
 	}
 }
 
-func TestClearCommandEmptiesStack(t *testing.T) {
+func TestClearEmptiesTheStack(t *testing.T) {
 	_, err := StackMachine("1 2 3 4 CLEAR")
 	if err == nil {
 		t.Error("expected error due to no results")
 	}
 }
 
-func TestSumCommandSumsAllIntegersOnStack(t *testing.T) {
+func TestSumCommandSumsAllStackValues(t *testing.T) {
 	actual, err := StackMachine("1 2 3 4 5 SUM")
 	if err != nil {
 		t.Errorf("expected no error but got: %v", err)
@@ -154,7 +154,7 @@ func TestSumCommandSumsAllIntegersOnStack(t *testing.T) {
 	}
 }
 
-func TestStackMachineErrorsOnInvalidInput(t *testing.T) {
+func TestInvalidInputCausesError(t *testing.T) {
 	actual, err := StackMachine("XXX-INVALID 1 2 +")
 	if err == nil {
 		t.Errorf("expected error but got: %v", actual)
