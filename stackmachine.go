@@ -12,27 +12,7 @@ func StackMachine(commands string) (int, error) {
 	splitCommands := strings.Fields(commands)
 
 	for _, command := range splitCommands {
-		var err error
-
-		switch command {
-		case "POP":
-			_, err = popIntegerFromStack(&stack)
-		case "DUP":
-			duplicateTopmostIntegerOfStack(&stack)
-		case "+":
-			err = sumTopTwoIntegersOfStack(&stack)
-		case "*":
-			err = multiplyTopTwoIntegersOfStack(&stack)
-		case "-":
-			err = minusPenultimateIntegerFromTopIntegerOfStack(&stack)
-		case "CLEAR":
-			clearStack(&stack)
-		case "SUM":
-			err = sumAllIntegersOnStack(&stack)
-		default:
-			err = pushIntegerToStack(command, &stack)
-		}
-
+		err := executeCommand(command, &stack)
 		if err != nil {
 			return 0, err
 		}
@@ -47,7 +27,36 @@ func StackMachine(commands string) (int, error) {
 }
 
 
-func checkCommandAndConverterToInteger(command string) (int, error) {
+func executeCommand(command string, stack *[]int) error {
+	var err error
+
+	switch command {
+	case "POP":
+		_, err = popIntegerFromStack(stack)
+	case "DUP":
+		duplicateTopmostIntegerOfStack(stack)
+	case "SUM":
+		err = sumAllIntegersOnStack(stack)
+	case "CLEAR":
+		clearStack(stack)
+	case "+":
+		err = sumTopTwoIntegersOfStack(stack)
+	case "*":
+		err = multiplyTopTwoIntegersOfStack(stack)
+	case "-":
+		err = minusPenultimateIntegerFromTopIntegerOfStack(stack)
+	default:
+		err = pushIntegerToStack(command, stack)
+	}
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+
+func checkCommandAndConverteToInteger(command string) (int, error) {
 	integer, err := strconv.Atoi(command)
 	if err == nil {
 		return integer, nil
@@ -72,7 +81,7 @@ func checkIntegerAndPushToStack(integer int, stack *[]int) error {
 }
 
 func pushIntegerToStack(command string, stack *[]int) error {
-	integer, err := checkCommandAndConverterToInteger(command)
+	integer, err := checkCommandAndConverteToInteger(command)
 	if err != nil {
 		return errors.New("")
 	}
