@@ -19,7 +19,7 @@ func StackMachine(commands string)(int, error) {
 		} else {
 			switch command {
 			case "POP":
-				stack = stack[:len(stack)-1]
+				popItemFromStack(&stack)
 			}
 			
 		}
@@ -57,6 +57,18 @@ func checkIntegerAndPushToStack(integer int, stack *[]int) error {
 	} else {
 		return errors.New("integer out of bounds error")
 	}
+}
+
+func popItemFromStack(stack *[]int) (int, error) {
+	if len(*stack) == 0 {
+		return 0, errors.New("stack empty, noting to pop")
+	}
+	
+	poppedItem := (*stack)[len(*stack)-1]
+	
+	*stack = (*stack)[:len(*stack)-1]
+	
+	return poppedItem, nil
 }
 
 
