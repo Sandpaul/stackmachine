@@ -80,6 +80,20 @@ func TestDupCommandDuplicatesTopNumberOfStack(t *testing.T) {
 	}
 }
 
+
+func TestDupCommandDoesNothingIfStackIsEmpty(t *testing.T) {
+	actual, err := StackMachine("DUP 99")
+	if err != nil {
+		t.Errorf("expected no error but got: %v", err)
+	}
+
+	expected := 99
+
+	if actual != expected {
+		t.Errorf("expected: %v but got: %v", expected, actual)
+	}
+}
+
 /*
   All these tests must pass for completion
 */
