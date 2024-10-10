@@ -30,11 +30,7 @@ func StackMachine(commands string) (int, error) {
 		case "SUM":
 			err = sumAllIntegersOnStack(&stack)
 		default:
-			integer, conversionErr := checkCommandAndConverterToInteger(command)
-			if conversionErr != nil {
-				return 0, errors.New("")
-			}
-			err = checkIntegerAndPushToStack(integer, &stack)
+			err = pushIntegerToStack(command, &stack)
 		}
 
 		if err != nil {
@@ -73,6 +69,19 @@ func checkIntegerAndPushToStack(integer int, stack *[]int) error {
 
 	return errors.New("")
 }
+
+func pushIntegerToStack(command string, stack *[]int) error {
+	integer, err := checkCommandAndConverterToInteger(command)
+	if err != nil {
+		return errors.New("")
+	}
+	err = checkIntegerAndPushToStack(integer, stack)
+	if err != nil {
+		return errors.New("")
+	}
+	return nil
+}
+
 
 func popIntegerFromStack(stack *[]int) (int, error) {
 	if len(*stack) == 0 {
