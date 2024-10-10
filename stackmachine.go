@@ -25,12 +25,7 @@ func StackMachine(commands string)(int, error) {
 			case "+":
 				sumTopTwoIntegersOfStack(&stack)
 			case "*":
-				integer1, err := popIntegerFromStack(&stack)
-				integer2, err2 := popIntegerFromStack(&stack)
-				if err == nil && err2 == nil {
-					product := integer1 * integer2
-					checkIntegerAndPushToStack(product, &stack)
-				}
+				multiplyTopTwoIntegesOfStack(&stack)
 			}
 			
 		}
@@ -85,6 +80,15 @@ func sumTopTwoIntegersOfStack(stack *[]int) {
 	if err1 == nil && err2 == nil {
 		sum := integer1 + integer2
 		checkIntegerAndPushToStack(sum, stack)
+	}
+}
+
+func multiplyTopTwoIntegesOfStack(stack *[]int) {
+	integer1, err := popIntegerFromStack(stack)
+	integer2, err2 := popIntegerFromStack(stack)
+	if err == nil && err2 == nil {
+		product := integer1 * integer2
+		checkIntegerAndPushToStack(product, stack)
 	}
 }
 
