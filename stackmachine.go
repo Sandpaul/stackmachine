@@ -184,14 +184,12 @@ func sumAll(stack *[]int) error {
 }
 
 func main() {
-	fmt.Println("Starting the stack machine...")  // Added to check if the program starts
 	if len(os.Args) < 2 {
 		fmt.Println("Please provide the commands as input")
 		return
 	}
 
-	commands := os.Args[1] // Takes the command-line argument as input
-	fmt.Println("Commands provided:", commands)  // Added to check if commands are passed
+	commands := os.Args[1]
 
 	result, err := StackMachine(commands)
 	if err != nil {
@@ -199,5 +197,5 @@ func main() {
 		return
 	}
 
-	fmt.Println("Result:", result)
+	fmt.Println(result)
 }
