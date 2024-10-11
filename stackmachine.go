@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strconv"
 	"strings"
+	"fmt"
+	"os"
 )
 
 func StackMachine(commands string) (int, error) {
@@ -182,6 +184,20 @@ func sumAll(stack *[]int) error {
 }
 
 func main() {
-	// main is unused - run using
-	// go test ./...
+	fmt.Println("Starting the stack machine...")  // Added to check if the program starts
+	if len(os.Args) < 2 {
+		fmt.Println("Please provide the commands as input")
+		return
+	}
+
+	commands := os.Args[1] // Takes the command-line argument as input
+	fmt.Println("Commands provided:", commands)  // Added to check if commands are passed
+
+	result, err := StackMachine(commands)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Println("Result:", result)
 }
